@@ -56,9 +56,13 @@ class MainFragment : Fragment(), OnMyItemClickListener {
             }
             is AppState.Loading -> {
                 binding.progressBar.visibility = View.VISIBLE
+                binding.mainLayoutList.alpha=0.8f
+                binding.mainLayoutList.setBackgroundResource(R.color.black)
             }
             is AppState.Success -> {
                 binding.progressBar.visibility = View.GONE
+                binding.mainLayoutList.alpha=1f
+                binding.mainLayoutList.setBackgroundResource(R.color.white)
                 adapter.setWeather(appState.weatherData)
                 /*Snackbar.make(
                     binding.root,
