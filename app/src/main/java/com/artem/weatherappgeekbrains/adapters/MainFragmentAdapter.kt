@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artem.weatherappgeekbrains.databinding.ItemBinding
+import com.artem.weatherappgeekbrains.extensions.loadImageFromUrl
 import com.artem.weatherappgeekbrains.model.Weather
 
 class MainFragmentAdapter(val listener: OnMyItemClickListener) :
@@ -26,6 +27,7 @@ class MainFragmentAdapter(val listener: OnMyItemClickListener) :
             cityName.text = weatherItem.city.name
             cityTemperature.text = weatherItem.temperature.toString()
             feelsLike.text = weatherItem.feelsLike.toString()
+            imageView.loadImageFromUrl(weatherItem.city.image)
         }
     }
 

@@ -4,12 +4,21 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Weather(val city:City= getDefaultCity(), val temperature:Int=20, val feelsLike:Int=20):Parcelable
+data class Weather(
+    val city: City = getDefaultCity(),
+    val temperature: Int = 20,
+    val feelsLike: Int = 20
+) : Parcelable
 
 @Parcelize
-data class City(val name:String,val lon:Double,val lat:Double):Parcelable
+data class City(
+    val name: String,
+    val lon: Double,
+    val lat: Double,
+    val image: String = "https://picsum.photos/200"
+) : Parcelable
 
-fun getDefaultCity() = City("Москва",37.5,55.5)
+fun getDefaultCity() = City("Москва", 37.5, 55.5, "https://picsum.photos/200")
 
 fun getWorldCities(): List<Weather> {
     return listOf(
