@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,8 @@ import com.artem.weatherappgeekbrains.model.AppState
 import com.artem.weatherappgeekbrains.model.Repository
 import com.artem.weatherappgeekbrains.model.Weather
 import com.artem.weatherappgeekbrains.model.getWorldCities
+import com.artem.weatherappgeekbrains.pages.detailsfragment.BUNDLE_KEY
+import com.artem.weatherappgeekbrains.pages.detailsfragment.DetailsFragment
 import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment(), OnMyItemClickListener {
@@ -43,6 +46,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         binding.mainFragmentFAB.setOnClickListener {
             sentRequest()
         }
+        viewModel.getWeatherFromLocalSourceRus()
     }
 
     private fun renderData(appState: AppState) {
@@ -94,8 +98,14 @@ class MainFragment : Fragment(), OnMyItemClickListener {
     }
 
     override fun onItemClick(weather: Weather) {
-        TODO("Not yet implemented")
+        val bundle=Bundle()
+        bundle.putParcelable(BUNDLE_KEY,weather)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, DetailsFragment.newInstance(bundle))
+            .addToBackStack("").commit()
     }
+
+
 
 
 }

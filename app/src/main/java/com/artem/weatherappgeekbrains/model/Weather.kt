@@ -44,9 +44,9 @@ fun getRussianCities(): List<Weather> {
         Weather(City("Yekaterinburg", 56.83892609999999, 60.60570250000001), 7, 8),
         Weather(City("Nizhny novgorod", 56.2965039, 43.936059), 9, 10),
         Weather(City("Kazan", 55.8304307, 49.06608060000008), 11, 12),
-        Weather(City("Челябинск", 55.1644419, 61.4368432), 13, 14),
-        Weather(City("Омск", 54.9884804, 73.32423610000001), 15, 16),
-        Weather(City("Ростов-на-Дону", 47.2357137, 39.701505), 17, 18),
-        Weather(City("Уфа", 54.7387621, 55.972055400000045), 19, 20)
+        Weather(City("Chelyabinsk", 55.1644419, 61.4368432), 13, 14),
+        Weather(City("Omsk", 54.9884804, 73.32423610000001), 15, 16),
+        Weather(City("Rostov-on-Don", 47.2357137, 39.701505), 17, 18),
+        Weather(City("Ufa", 54.7387621, 55.972055400000045), 19, 20)
     )
 }

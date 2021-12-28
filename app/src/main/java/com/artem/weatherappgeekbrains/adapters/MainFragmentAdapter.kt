@@ -1,7 +1,9 @@
 package com.artem.weatherappgeekbrains.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.artem.weatherappgeekbrains.databinding.ItemBinding
 import com.artem.weatherappgeekbrains.extensions.loadImageFromUrl
@@ -29,11 +31,17 @@ class MainFragmentAdapter(val listener: OnMyItemClickListener) :
             feelsLike.text = weatherItem.feelsLike.toString()
             imageView.loadImageFromUrl(weatherItem.city.image)
         }
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(weatherItem)
+        }
+
     }
 
     override fun getItemCount(): Int {
         return weatherData.size
     }
 
-    inner class Viewholder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root)
+     class Viewholder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root){
+
+    }
 }
