@@ -1,11 +1,10 @@
 package com.artem.weatherappgeekbrains.pages.mainfragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +13,6 @@ import com.artem.weatherappgeekbrains.adapters.MainFragmentAdapter
 import com.artem.weatherappgeekbrains.adapters.OnMyItemClickListener
 import com.artem.weatherappgeekbrains.databinding.MainFragmentBinding
 import com.artem.weatherappgeekbrains.model.AppState
-import com.artem.weatherappgeekbrains.model.Repository
 import com.artem.weatherappgeekbrains.model.Weather
 import com.artem.weatherappgeekbrains.model.getWorldCities
 import com.artem.weatherappgeekbrains.pages.detailsfragment.BUNDLE_KEY
@@ -59,14 +57,24 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                     }.show()
             }
             is AppState.Loading -> {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.mainLayoutList.alpha=0.8f
-                binding.mainLayoutList.setBackgroundResource(R.color.black)
+                binding.apply {
+                    progressBar.visibility = View.VISIBLE
+                    mainLayoutList.alpha = 0.8f
+                    mainLayoutList.setBackgroundResource(R.color.black)
+                }
+
             }
             is AppState.Success -> {
-                binding.progressBar.visibility = View.GONE
-                binding.mainLayoutList.alpha=1f
-                binding.mainLayoutList.setBackgroundResource(R.color.white)
+
+                binding.apply {
+                    progressBar.visibility = View.GONE
+                    mainLayoutList.alpha = 1f
+                    mainLayoutList.setBackgroundResource(R.color.white)
+                }
+
+                /* binding.progressBar.visibility = View.GONE
+                 binding.mainLayoutList.alpha=1f
+                 binding.mainLayoutList.setBackgroundResource(R.color.white)*/
                 adapter.setWeather(appState.weatherData)
                 /*Snackbar.make(
                     binding.root,
@@ -98,14 +106,12 @@ class MainFragment : Fragment(), OnMyItemClickListener {
     }
 
     override fun onItemClick(weather: Weather) {
-        val bundle=Bundle()
-        bundle.putParcelable(BUNDLE_KEY,weather)
+        val bundle = Bundle()
+        bundle.putParcelable(BUNDLE_KEY, weather)
         requireActivity().supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DetailsFragment.newInstance(bundle))
             .addToBackStack("").commit()
     }
-
-
 
 
 }

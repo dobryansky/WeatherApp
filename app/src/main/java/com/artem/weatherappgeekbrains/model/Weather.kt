@@ -15,10 +15,10 @@ data class City(
     val name: String,
     val lon: Double,
     val lat: Double,
-    val image: String = "https://picsum.photos/200"
+    val image: String = "https://placeimg.com/200/200/arch"
 ) : Parcelable
 
-fun getDefaultCity() = City("Москва", 37.5, 55.5, "https://picsum.photos/100")
+fun getDefaultCity() = City("Москва", 37.5, 55.5, "https://placeimg.com/200/200/arch")
 
 fun getWorldCities(): List<Weather> {
     return listOf(
