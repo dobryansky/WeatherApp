@@ -17,6 +17,7 @@ import com.artem.weatherappgeekbrains.model.Weather
 import com.artem.weatherappgeekbrains.model.getWorldCities
 import com.artem.weatherappgeekbrains.pages.detailsfragment.BUNDLE_KEY
 import com.artem.weatherappgeekbrains.pages.detailsfragment.DetailsFragment
+import com.artem.weatherappgeekbrains.pages.dialogfragments.AddCityFragment
 import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment(), OnMyItemClickListener {
@@ -24,6 +25,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
     private val binding get() = _binding!!
     private val adapter = MainFragmentAdapter(this)
     private lateinit var viewModel: MainFragmentViewModel
+
     private var isRussian = true
 
     override fun onCreateView(
@@ -41,6 +43,10 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         adapter.setWeather(getWorldCities())
         binding.mainRecycleView.layoutManager = LinearLayoutManager(context)
         binding.mainRecycleView.adapter = adapter
+        binding.buttonAdd.setOnClickListener {
+            val dialogFragment=AddCityFragment()
+            dialogFragment.show(parentFragmentManager,"Second Dialog")
+        }
         binding.mainFragmentFAB.setOnClickListener {
             sentRequest()
         }

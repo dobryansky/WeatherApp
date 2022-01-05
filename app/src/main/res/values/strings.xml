@@ -6,4 +6,7 @@
     <string name="city_coordinates">lt/ln: %s, %s"</string>
     <string name="error">Error</string>
     <string name="reload">Reload</string>
+    <string name="content_description_end_icon">input coordinates</string>
+    <string name="lon_label">Ширина</string>
+    <string name="lat_label">Долгота</string>
 </resources>
