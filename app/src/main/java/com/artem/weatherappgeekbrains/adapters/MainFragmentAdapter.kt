@@ -25,8 +25,8 @@ class MainFragmentAdapter(val listener: OnMyItemClickListener) :
         val weatherItem = weatherData[position]
         with(holder.binding) {
             cityName.text = weatherItem.city.name
-            cityTemperature.text = weatherItem.temperature.toString()
-            feelsLike.text = weatherItem.feelsLike.toString()
+            cityTemperature.text ="${weatherItem.temperature}°"
+            feelsLike.text ="feels like ${weatherItem.feelsLike}°"
             imageView.loadImageFromUrl(weatherItem.city.image)
         }
         holder.itemView.setOnClickListener {
