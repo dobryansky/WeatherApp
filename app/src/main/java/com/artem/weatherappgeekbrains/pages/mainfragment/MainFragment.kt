@@ -13,6 +13,7 @@ import com.artem.weatherappgeekbrains.adapters.MainFragmentAdapter
 import com.artem.weatherappgeekbrains.adapters.OnMyItemClickListener
 import com.artem.weatherappgeekbrains.databinding.MainFragmentBinding
 import com.artem.weatherappgeekbrains.model.AppState
+import com.artem.weatherappgeekbrains.model.CityList
 import com.artem.weatherappgeekbrains.model.Weather
 import com.artem.weatherappgeekbrains.model.getWorldCities
 import com.artem.weatherappgeekbrains.pages.detailsfragment.BUNDLE_KEY
@@ -23,10 +24,10 @@ import com.google.android.material.snackbar.Snackbar
 class MainFragment : Fragment(), OnMyItemClickListener {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
-    private val adapter = MainFragmentAdapter(this)
     private lateinit var viewModel: MainFragmentViewModel
-
     private var isRussian = true
+    private var adapter = MainFragmentAdapter(this,isRussian)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,18 +41,24 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
-        adapter.setWeather(getWorldCities())
+       // adapter.setWeather(CityList.citiesWorld)
         binding.mainRecycleView.layoutManager = LinearLayoutManager(context)
         binding.mainRecycleView.adapter = adapter
         binding.buttonAdd.setOnClickListener {
             val dialogFragment=AddCityFragment()
-            dialogFragment.show(parentFragmentManager,"Second Dialog")
+            val args = Bundle()
+            args.putBoolean("isRussian",isRussian)
+            dialogFragment.arguments=args
+            dialogFragment.show(parentFragmentManager,"Add Dialog")
         }
         binding.mainFragmentFAB.setOnClickListener {
+
             sentRequest()
         }
         viewModel.getWeatherFromLocalSourceRus()
     }
+
+
 
     private fun renderData(appState: AppState) {
         when (appState) {
@@ -77,10 +84,6 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                     mainLayoutList.alpha = 1f
                     mainLayoutList.setBackgroundResource(R.color.white)
                 }
-
-                /* binding.progressBar.visibility = View.GONE
-                 binding.mainLayoutList.alpha=1f
-                 binding.mainLayoutList.setBackgroundResource(R.color.white)*/
                 adapter.setWeather(appState.weatherData)
                 /*Snackbar.make(
                     binding.root,
@@ -93,21 +96,24 @@ class MainFragment : Fragment(), OnMyItemClickListener {
 
     private fun sentRequest() {
         isRussian = !isRussian
+        adapter = MainFragmentAdapter(this,isRussian)
+        binding.mainRecycleView.adapter = adapter
+        adapter.notifyDataSetChanged()
+
         if (isRussian) {
             viewModel.getWeatherFromLocalSourceRus()
             binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+
         } else {
             viewModel.getWeatherFromLocalSourceWorld()
             binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 
     companion object {
+
         fun newInstance() = MainFragment()
     }
 
@@ -118,6 +124,13 @@ class MainFragment : Fragment(), OnMyItemClickListener {
             .add(R.id.fragment_container, DetailsFragment.newInstance(bundle))
             .addToBackStack("").commit()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
 
 
 }

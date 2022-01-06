@@ -6,12 +6,22 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:hint="Название">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/city_name_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:hint="Ширина">
-
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/lan_txt"

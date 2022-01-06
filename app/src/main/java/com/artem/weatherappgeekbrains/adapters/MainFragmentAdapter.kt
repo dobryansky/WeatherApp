@@ -3,14 +3,15 @@ package com.artem.weatherappgeekbrains.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.artem.weatherappgeekbrains.R
 import com.artem.weatherappgeekbrains.databinding.ItemBinding
 import com.artem.weatherappgeekbrains.extensions.loadImageFromUrl
 import com.artem.weatherappgeekbrains.model.Weather
+import com.artem.weatherappgeekbrains.pages.mainfragment.MainFragment
 
-class MainFragmentAdapter(val listener: OnMyItemClickListener) :
+class MainFragmentAdapter(val listener: OnMyItemClickListener,val isRussian:Boolean) :
     RecyclerView.Adapter<MainFragmentAdapter.Viewholder>() {
     private var weatherData: List<Weather> = listOf()
-
 
     fun setWeather(data: List<Weather>) {
         this.weatherData = data
@@ -28,6 +29,16 @@ class MainFragmentAdapter(val listener: OnMyItemClickListener) :
             cityTemperature.text ="${weatherItem.temperature}°"
             feelsLike.text ="feels like ${weatherItem.feelsLike}°"
             imageView.loadImageFromUrl(weatherItem.city.image)
+
+            if(isRussian){
+                itemColorLayout.setBackgroundResource(R.drawable.gradient_background_item)
+
+            } else {
+                itemColorLayout.setBackgroundResource(R.drawable.gradient_background_world_item)
+            }
+
+
+
         }
         holder.itemView.setOnClickListener {
             listener.onItemClick(weatherItem)
