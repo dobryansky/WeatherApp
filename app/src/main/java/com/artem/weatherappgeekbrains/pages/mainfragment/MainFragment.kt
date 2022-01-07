@@ -41,21 +41,24 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         viewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
         adapter.setWeather(CityList.citiesWorld)
-        binding.mainRecycleView.layoutManager = LinearLayoutManager(context)
-        binding.mainRecycleView.adapter = adapter
-        binding.buttonAdd.setOnClickListener {
-            val dialogFragment = AddCityFragment()
-            val args = Bundle()
-            args.putBoolean("isRussian", isRussian)
-            dialogFragment.arguments = args
-            dialogFragment.show(parentFragmentManager, "Add Dialog")
+
+        with(binding){
+            mainRecycleView.layoutManager = LinearLayoutManager(context)
+            mainRecycleView.adapter = adapter
+            buttonAdd.setOnClickListener {
+                val dialogFragment = AddCityFragment()
+                val args = Bundle()
+                args.putBoolean("isRussian", isRussian)
+                dialogFragment.arguments = args
+                dialogFragment.show(parentFragmentManager, "Add Dialog")
+            }
+            mainFragmentFAB.setOnClickListener {
+
+                sentRequest()
+
+            }
         }
-        binding.mainFragmentFAB.setOnClickListener {
 
-            sentRequest()
-
-
-        }
         viewModel.getWeatherFromLocalSourceRus()
     }
 
@@ -97,19 +100,23 @@ class MainFragment : Fragment(), OnMyItemClickListener {
     private fun sentRequest() {
         isRussian = !isRussian
         adapter = MainFragmentAdapter(this, isRussian)
-        binding.mainRecycleView.layoutManager = LinearLayoutManager(context)
-        binding.mainRecycleView.adapter = adapter
+        with(binding){
+            mainRecycleView.layoutManager = LinearLayoutManager(context)
+            mainRecycleView.adapter = adapter
 
-        if (isRussian) {
-            viewModel.getWeatherFromLocalSourceRus()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
-            adapter.setWeather(CityList.citiesRussian)
+            if (isRussian) {
+                viewModel.getWeatherFromLocalSourceRus()
+                mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+                adapter.setWeather(CityList.citiesRussian)
 
-        } else {
-            viewModel.getWeatherFromLocalSourceWorld()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
-            adapter.setWeather(CityList.citiesWorld)
+            } else {
+                viewModel.getWeatherFromLocalSourceWorld()
+                mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+                adapter.setWeather(CityList.citiesWorld)
+            }
         }
+
+
     }
 
 

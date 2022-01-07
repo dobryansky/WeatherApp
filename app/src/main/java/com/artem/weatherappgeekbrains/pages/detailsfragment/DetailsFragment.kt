@@ -40,7 +40,6 @@ class DetailsFragment : Fragment() {
             temperatureValue.text = "${weather.temperature}"
             feelsLikeValue.text = "${weather.feelsLike}"
         }
-
     }
 
     companion object {

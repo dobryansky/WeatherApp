@@ -18,7 +18,6 @@ class AddCityFragment : DialogFragment() {
     private var longitude: TextInputEditText? = null
     private var latitude: TextInputEditText? = null
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_fragment, null)
@@ -43,11 +42,6 @@ class AddCityFragment : DialogFragment() {
                 } catch (e:Exception){
                     Toast.makeText(context,"введите поля!!!",Toast.LENGTH_SHORT).show()
                 }
-
-
-
-
-
 
             })
         return builder.create()
