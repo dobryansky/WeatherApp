@@ -7,7 +7,6 @@ import com.artem.weatherappgeekbrains.R
 import com.artem.weatherappgeekbrains.databinding.ItemBinding
 import com.artem.weatherappgeekbrains.extensions.loadImageFromUrl
 import com.artem.weatherappgeekbrains.model.Weather
-import com.artem.weatherappgeekbrains.pages.mainfragment.MainFragment
 
 class MainFragmentAdapter(val listener: OnMyItemClickListener,val isRussian:Boolean) :
     RecyclerView.Adapter<MainFragmentAdapter.Viewholder>() {
