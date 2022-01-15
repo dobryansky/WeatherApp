@@ -39,7 +39,9 @@ class MainFragment : Fragment(), OnMyItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
+        viewModel.getWeatherFromLocalSourceRus()
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
+
         adapter.setWeather(CityList.citiesWorld)
 
         with(binding){
@@ -53,13 +55,11 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                 dialogFragment.show(parentFragmentManager, "Add Dialog")
             }
             mainFragmentFAB.setOnClickListener {
-
                 sentRequest()
-
             }
         }
 
-        viewModel.getWeatherFromLocalSourceRus()
+
     }
 
 
@@ -67,10 +67,10 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         when (appState) {
             is AppState.Error -> {
                 binding.progressBar.visibility = View.GONE
-                Snackbar.make(binding.root, "Error", Snackbar.LENGTH_LONG)
-                    .setAction("Попробовать ещше раз") {
+               /* Snackbar.make(binding.root, "Error", Snackbar.LENGTH_LONG)
+                    .setAction("Попробовать еще раз") {
                         sentRequest()
-                    }.show()
+                    }.show()*/
             }
             is AppState.Loading -> {
                 binding.apply {
@@ -78,10 +78,8 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                     mainLayoutList.alpha = 0.8f
                     mainLayoutList.setBackgroundResource(R.color.purple_700)
                 }
-
             }
             is AppState.Success -> {
-
                 binding.apply {
                     progressBar.visibility = View.GONE
                     mainLayoutList.alpha = 1f
