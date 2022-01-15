@@ -1,7 +1,7 @@
 package com.artem.weatherappgeekbrains.adapters
-import com.artem.weatherappgeekbrains.model.Weather
+import com.artem.weatherappgeekbrains.model.City
 
 
 interface OnMyItemClickListener {
-    fun onItemClick(weather: Weather)
+    fun onItemClick(city: City)
 }

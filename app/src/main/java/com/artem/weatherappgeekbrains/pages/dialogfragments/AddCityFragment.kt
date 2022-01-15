@@ -9,7 +9,6 @@ import androidx.fragment.app.DialogFragment
 import com.artem.weatherappgeekbrains.R
 import com.artem.weatherappgeekbrains.model.City
 import com.artem.weatherappgeekbrains.model.CityList
-import com.artem.weatherappgeekbrains.model.Weather
 import com.google.android.material.textfield.TextInputEditText
 
 class AddCityFragment : DialogFragment() {
@@ -33,11 +32,11 @@ class AddCityFragment : DialogFragment() {
                     val newCityName:String = cityName?.text.toString()
                     val newCityLon: Double = longitude?.text.toString().toDouble()
                     val newCityLat: Double = latitude?.text.toString().toDouble()
-                    val newWeather=Weather(City(newCityName,newCityLon,newCityLat,"https://placeimg.com/200/200/arch"),666,777)
+                    val newCity=City(newCityName,null)
                     if(isRussian == true) {
-                        CityList.citiesRussian.add(newWeather)
+                        CityList.citiesRussian.add(newCity)
                     }else{
-                        CityList.citiesWorld.add(newWeather)
+                        CityList.citiesWorld.add(newCity)
                     }
                 } catch (e:Exception){
                     Toast.makeText(context,"введите поля!!!",Toast.LENGTH_SHORT).show()

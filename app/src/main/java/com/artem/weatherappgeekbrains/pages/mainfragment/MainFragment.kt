@@ -13,12 +13,11 @@ import com.artem.weatherappgeekbrains.adapters.MainFragmentAdapter
 import com.artem.weatherappgeekbrains.adapters.OnMyItemClickListener
 import com.artem.weatherappgeekbrains.databinding.MainFragmentBinding
 import com.artem.weatherappgeekbrains.model.AppState
+import com.artem.weatherappgeekbrains.model.City
 import com.artem.weatherappgeekbrains.model.CityList
-import com.artem.weatherappgeekbrains.model.Weather
 import com.artem.weatherappgeekbrains.pages.detailsfragment.BUNDLE_KEY
 import com.artem.weatherappgeekbrains.pages.detailsfragment.DetailsFragment
 import com.artem.weatherappgeekbrains.pages.dialogfragments.AddCityFragment
-import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment(), OnMyItemClickListener {
     private var _binding: MainFragmentBinding? = null
@@ -85,7 +84,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                     mainLayoutList.alpha = 1f
                     mainLayoutList.setBackgroundResource(R.color.white)
                 }
-                adapter.setWeather(appState.weatherData)
+                adapter.setWeather(appState.cityList)
                 /*Snackbar.make(
                     binding.root,
                     "Success",
@@ -122,9 +121,9 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         fun newInstance() = MainFragment()
     }
 
-    override fun onItemClick(weather: Weather) {
+    override fun onItemClick(city: City) {
         val bundle = Bundle()
-        bundle.putParcelable(BUNDLE_KEY, weather)
+        bundle.putParcelable(BUNDLE_KEY, city)
         requireActivity().supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DetailsFragment.newInstance(bundle))
             .addToBackStack("").commit()

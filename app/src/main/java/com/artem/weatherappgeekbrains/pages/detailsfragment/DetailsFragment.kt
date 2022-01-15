@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.artem.weatherappgeekbrains.databinding.DetailsFragmentBinding
 import com.artem.weatherappgeekbrains.extensions.loadImageFromUrl
-import com.artem.weatherappgeekbrains.model.Weather
+import com.artem.weatherappgeekbrains.model.City
 
 const val BUNDLE_KEY = "key"
 class DetailsFragment : Fragment() {
@@ -26,19 +26,18 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val weather = arguments?.getParcelable<Weather>(BUNDLE_KEY)
+        val weather = arguments?.getParcelable<City>(BUNDLE_KEY)
         weather?.let {
             setWeatherData(weather)
         }
     }
 
-    private fun setWeatherData(weather: Weather) {
+    private fun setWeatherData(city: City) {
         with(binding){
-            imageCity.loadImageFromUrl(weather.city.image)
-            cityName.text = weather.city.name
-            cityCoordinates.text = "${weather.city.lat} ${weather.city.lon}"
-            temperatureValue.text = "${weather.temperature}"
-            feelsLikeValue.text = "${weather.feelsLike}"
+            imageCity.loadImageFromUrl(city.image)
+            cityName.text = city.name
+            temperatureValue.text = city.weatherDTO?.current?.temp_c.toString()
+            feelsLikeValue.text = city.weatherDTO?.current?.feelslike_c.toString()
         }
     }
 

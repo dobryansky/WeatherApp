@@ -1,10 +1,15 @@
 package com.artem.weatherappgeekbrains.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class WeatherDTO(
     val current: Current,
     val location: Location
-)
+):Parcelable
 
+@Parcelize
 data class Location(
     val country: String,
     val lat: Double,
@@ -14,8 +19,8 @@ data class Location(
     val name: String,
     val region: String,
     val tz_id: String
-)
-
+):Parcelable
+@Parcelize
 data class Current(
     val cloud: Int,
     val condition: Condition,
@@ -40,10 +45,11 @@ data class Current(
     val wind_dir: String,
     val wind_kph: Double,
     val wind_mph: Double
-)
+):Parcelable
 
+@Parcelize
 data class Condition(
     val code: Int,
     val icon: String,
     val text: String
-)
+):Parcelable
