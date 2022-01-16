@@ -16,16 +16,16 @@ data class City(
 
 fun getWorldCities(): MutableList<City> {
     return mutableListOf(
-        City("Лондон" ),
-        City("Токио" ),
-        City("Париж"),
-        City("Берлин" ),
-        City("Рим" ),
-        City("Минск" ),
-        City("Стамбул" ),
-        City("Вашингтон" ),
-        City("Киев" ),
-        City("Пекин")
+        City("London" ),
+        City("Tokyo" ),
+        City("Paris"),
+        City("Berlin" ),
+        City("Rome" ),
+        City("Minsk" ),
+        City("Istanbul" ),
+        City("Washington" ),
+        City("Kiev" ),
+        City("Beijing")
     )
 }
 

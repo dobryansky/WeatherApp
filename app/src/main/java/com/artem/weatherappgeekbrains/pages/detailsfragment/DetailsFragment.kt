@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import com.artem.weatherappgeekbrains.databinding.DetailsFragmentBinding
 import com.artem.weatherappgeekbrains.extensions.loadImageFromUrl
 import com.artem.weatherappgeekbrains.model.City
+import com.artem.weatherappgeekbrains.model.WeatherDTO
+import com.artem.weatherappgeekbrains.utils.WeatherLoader
 
 const val BUNDLE_KEY = "key"
-class DetailsFragment : Fragment() {
+class DetailsFragment : Fragment(), WeatherLoader.OnWeatherLoaded {
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -24,15 +26,22 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
+    private val weatherLoader =WeatherLoader(this)
+    lateinit var city:City
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val weather = arguments?.getParcelable<City>(BUNDLE_KEY)
-        weather?.let {
-            setWeatherData(weather)
-        }
+       arguments?.let {
+           it.getParcelable<City>(BUNDLE_KEY)?.let {
+               city=it
+               weatherLoader.loadWeather(it.name)
+           }
+       }
     }
 
-    private fun setWeatherData(city: City) {
+
+
+    private fun setCityWeather(city: City) {
         with(binding){
             imageCity.loadImageFromUrl(city.image)
             cityName.text = city.name
@@ -52,6 +61,18 @@ class DetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onLoaded(weatherDTO: WeatherDTO?) {
+        val city= arguments?.getParcelable<City>(BUNDLE_KEY)
+        if (city != null) {
+            setCityWeather(City(city.name,weatherDTO))
+        }
+
+    }
+
+    override fun onFailed() {
+        TODO("Not yet implemented")
     }
 
 }
