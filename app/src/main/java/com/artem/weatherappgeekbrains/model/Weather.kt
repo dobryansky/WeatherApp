@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class City(
     val name: String,
-    val weatherDTO:WeatherDTO?=null,
+    var weatherDTO:WeatherDTO?=null,
     val image: String = "https://placeimg.com/200/200/arch"
 ) : Parcelable
 

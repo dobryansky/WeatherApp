@@ -12,6 +12,7 @@ import com.artem.weatherappgeekbrains.model.WeatherDTO
 import com.artem.weatherappgeekbrains.utils.WeatherLoader
 
 const val BUNDLE_KEY = "key"
+
 class DetailsFragment : Fragment(), WeatherLoader.OnWeatherLoaded {
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
@@ -26,23 +27,22 @@ class DetailsFragment : Fragment(), WeatherLoader.OnWeatherLoaded {
         return binding.root
     }
 
-    private val weatherLoader =WeatherLoader(this)
-    lateinit var city:City
+    private val weatherLoader = WeatherLoader(this)
+    lateinit var city: City
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       arguments?.let {
-           it.getParcelable<City>(BUNDLE_KEY)?.let {
-               city=it
-               weatherLoader.loadWeather(it.name)
-           }
-       }
+        arguments?.let {
+            it.getParcelable<City>(BUNDLE_KEY)?.let {
+                city = it
+                weatherLoader.loadWeather(it.name)
+            }
+        }
     }
 
 
-
     private fun setCityWeather(city: City) {
-        with(binding){
+        with(binding) {
             imageCity.loadImageFromUrl(city.image)
             cityName.text = city.name
             temperatureValue.text = city.weatherDTO?.current?.temp_c.toString()
@@ -51,8 +51,8 @@ class DetailsFragment : Fragment(), WeatherLoader.OnWeatherLoaded {
     }
 
     companion object {
-        fun newInstance(bundle:Bundle):DetailsFragment {
-            val fragment  = DetailsFragment()
+        fun newInstance(bundle: Bundle): DetailsFragment {
+            val fragment = DetailsFragment()
             fragment.arguments = bundle
             return fragment
         }
@@ -64,9 +64,9 @@ class DetailsFragment : Fragment(), WeatherLoader.OnWeatherLoaded {
     }
 
     override fun onLoaded(weatherDTO: WeatherDTO?) {
-        val city= arguments?.getParcelable<City>(BUNDLE_KEY)
+        val city = arguments?.getParcelable<City>(BUNDLE_KEY)
         if (city != null) {
-            setCityWeather(City(city.name,weatherDTO))
+            setCityWeather(City(city.name, weatherDTO))
         }
 
     }

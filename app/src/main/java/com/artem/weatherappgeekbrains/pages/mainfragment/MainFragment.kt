@@ -40,7 +40,6 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         viewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
         viewModel.getWeatherFromLocalSourceRus()
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
-
         adapter.setWeather(CityList.citiesWorld)
 
         with(binding){
@@ -57,10 +56,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                 sentRequest()
             }
         }
-
-
     }
-
 
     private fun renderData(appState: AppState) {
         when (appState) {

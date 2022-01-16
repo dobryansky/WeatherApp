@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection
 
 class WeatherLoader(private val onWeatherLoaded: OnWeatherLoaded) {
 
-    fun loadWeather(name:String) {
+    fun loadWeather(name: String) {
 
         /*try {
  // работаем здесь
@@ -25,18 +25,23 @@ class WeatherLoader(private val onWeatherLoaded: OnWeatherLoaded) {
         }*/
 
         Thread {
-            val url = URL("https://api.weatherapi.com/v1/current.json?key=11203b938d0d408385d134411212211&q=$name")
-            val httpsURLConnection = (url.openConnection() as HttpsURLConnection).apply {
-                requestMethod = "GET"
-                readTimeout = 2000
+            try {
+                val url =
+                    URL("https://api.weatherapi.com/v1/current.json?key=11203b938d0d408385d134411212211&q=$name")
+                val httpsURLConnection = (url.openConnection() as HttpsURLConnection).apply {
+                    requestMethod = "GET"
+                    readTimeout = 1000
+                    //addRequestProperty("key", "11203b938d0d408385d134411212211")
+                }
+                val bufferedReader =
+                    BufferedReader(InputStreamReader(httpsURLConnection.inputStream))
+                var weatherDTO: WeatherDTO? =
+                    Gson().fromJson(convertBufferToResult(bufferedReader), WeatherDTO::class.java)
+                Handler(Looper.getMainLooper()).post {
+                    onWeatherLoaded.onLoaded(weatherDTO)
+                }
+            } catch (e: Throwable) {
 
-                //addRequestProperty("key", "11203b938d0d408385d134411212211")
-            }
-            val bufferedReader = BufferedReader(InputStreamReader(httpsURLConnection.inputStream))
-            val weatherDTO: WeatherDTO? =
-                Gson().fromJson(convertBufferToResult(bufferedReader), WeatherDTO::class.java)
-            Handler(Looper.getMainLooper()).post {
-               onWeatherLoaded.onLoaded(weatherDTO)
             }
         }.start()
 
