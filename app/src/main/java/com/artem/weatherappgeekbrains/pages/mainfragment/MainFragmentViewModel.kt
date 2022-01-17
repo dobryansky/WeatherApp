@@ -1,10 +1,19 @@
 package com.artem.weatherappgeekbrains.pages.mainfragment
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.artem.weatherappgeekbrains.model.AppState
 import com.artem.weatherappgeekbrains.model.RepositoryImpl
+import com.artem.weatherappgeekbrains.model.WeatherDTO
+import com.google.gson.Gson
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
+import java.util.stream.Collectors
+import javax.net.ssl.HttpsURLConnection
 
 class MainFragmentViewModel(
     private val liveData: MutableLiveData<AppState> = MutableLiveData(),
@@ -20,10 +29,11 @@ class MainFragmentViewModel(
 
     fun getWeatherFromLocalSourceWorld() = getWeatherFromLocalServer(false)
 
-    fun getWeatherFromRemoteSource() = getWeatherFromLocalServer(true)//заглушка на 5 урок
+    fun getWeatherFromRemoteSourceRus() = getWeatherFromRemoteServer(true)
+    fun getWeatherFromRemoteSourceWorld() = getWeatherFromRemoteServer(true)
 
 
-    fun getWeatherFromLocalServer(isRussian: Boolean) {
+    private fun getWeatherFromLocalServer(isRussian: Boolean) {
         liveData.postValue(AppState.Loading(0))
         Thread {
             Thread.sleep(1000)
@@ -37,5 +47,36 @@ class MainFragmentViewModel(
                 )
             )
         }.start()
+    }
+
+    fun getWeatherFromRemoteServer(isRussian: Boolean) {
+        val weatherList= if (isRussian) {
+            repositoryImpl.getWeatherFromLocalStorageRus()
+        } else {
+            repositoryImpl.getWeatherFromLocalStorageWorld()
+        }
+        weatherList.forEach {weatherItem->
+            Thread {
+                val url =
+                    URL("https://api.weatherapi.com/v1/current.json?key=11203b938d0d408385d134411212211&q=${weatherItem.name}")
+                val httpsURLConnection = (url.openConnection() as HttpsURLConnection).apply {
+                    requestMethod = "GET"
+                    //readTimeout = 500
+                    //addRequestProperty("key", "11203b938d0d408385d134411212211")
+                }
+                val bufferedReader = BufferedReader(InputStreamReader(httpsURLConnection.inputStream))
+                val weatherDTO =
+                    Gson().fromJson(convertBufferToResult(bufferedReader), WeatherDTO::class.java)
+
+                weatherItem.weatherDTO = weatherDTO
+                liveData.postValue(AppState.Success(weatherList))
+
+            }.start()
+        }
+
+    }
+
+    private fun convertBufferToResult(bufferedReader: BufferedReader): String {
+        return bufferedReader.lines().collect(Collectors.joining("\n"))
     }
 }

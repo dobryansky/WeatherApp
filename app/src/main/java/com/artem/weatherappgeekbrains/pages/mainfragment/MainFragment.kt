@@ -38,7 +38,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
-        viewModel.getWeatherFromLocalSourceRus()
+        viewModel.getWeatherFromRemoteSourceRus()
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
         adapter.setWeather(CityList.citiesWorld)
 
@@ -98,14 +98,12 @@ class MainFragment : Fragment(), OnMyItemClickListener {
             mainRecycleView.adapter = adapter
 
             if (isRussian) {
-                viewModel.getWeatherFromLocalSourceRus()
+                viewModel.getWeatherFromRemoteSourceRus()
                 mainFragmentFAB.setImageResource(R.drawable.ic_russia)
-                adapter.setWeather(CityList.citiesRussian)
 
             } else {
-                viewModel.getWeatherFromLocalSourceWorld()
+                viewModel.getWeatherFromRemoteSourceWorld()
                 mainFragmentFAB.setImageResource(R.drawable.ic_earth)
-                adapter.setWeather(CityList.citiesWorld)
             }
         }
 

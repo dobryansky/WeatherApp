@@ -35,21 +35,6 @@ class MainFragmentAdapter(val listener: OnMyItemClickListener, val isRussian: Bo
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
         val weatherItem = weatherData[position]
-        Thread {
-            val url =
-                URL("https://api.weatherapi.com/v1/current.json?key=11203b938d0d408385d134411212211&q=${weatherData[position].name}")
-            val httpsURLConnection = (url.openConnection() as HttpsURLConnection).apply {
-                requestMethod = "GET"
-                //readTimeout = 500
-                //addRequestProperty("key", "11203b938d0d408385d134411212211")
-            }
-            val bufferedReader = BufferedReader(InputStreamReader(httpsURLConnection.inputStream))
-            weatherDTO =
-                Gson().fromJson(convertBufferToResult(bufferedReader), WeatherDTO::class.java)
-            Handler(Looper.getMainLooper()).post {
-                weatherItem.weatherDTO = weatherDTO
-            }
-        }.start()
 
     with(holder.binding) {
         cityName.text = weatherItem.name
