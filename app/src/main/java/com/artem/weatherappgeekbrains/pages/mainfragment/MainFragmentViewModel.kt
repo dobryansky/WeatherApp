@@ -1,7 +1,5 @@
 package com.artem.weatherappgeekbrains.pages.mainfragment
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,21 +14,16 @@ import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
 class MainFragmentViewModel(
-    private val liveData: MutableLiveData<AppState> = MutableLiveData(),
+     val liveData: MutableLiveData<AppState> = MutableLiveData(),
     private val repositoryImpl: RepositoryImpl = RepositoryImpl()
 
 ) : ViewModel() {
 
     fun getLiveData(): LiveData<AppState> {
-        return liveData
-    }
-
-    fun getWeatherFromLocalSourceRus() = getWeatherFromLocalServer(true)
-
-    fun getWeatherFromLocalSourceWorld() = getWeatherFromLocalServer(false)
+        return liveData    }
 
     fun getWeatherFromRemoteSourceRus() = getWeatherFromRemoteServer(true)
-    fun getWeatherFromRemoteSourceWorld() = getWeatherFromRemoteServer(true)
+    fun getWeatherFromRemoteSourceWorld() = getWeatherFromRemoteServer(false)
 
 
     private fun getWeatherFromLocalServer(isRussian: Boolean) {
@@ -73,7 +66,6 @@ class MainFragmentViewModel(
 
             }.start()
         }
-
     }
 
     private fun convertBufferToResult(bufferedReader: BufferedReader): String {

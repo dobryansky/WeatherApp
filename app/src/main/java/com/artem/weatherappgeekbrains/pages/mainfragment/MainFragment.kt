@@ -92,6 +92,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
 
     private fun sentRequest() {
         isRussian = !isRussian
+
         adapter = MainFragmentAdapter(this, isRussian)
         with(binding){
             mainRecycleView.layoutManager = LinearLayoutManager(context)
@@ -106,6 +107,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                 mainFragmentFAB.setImageResource(R.drawable.ic_earth)
             }
         }
+
 
 
     }

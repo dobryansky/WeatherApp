@@ -14,30 +14,25 @@ import com.google.android.material.textfield.TextInputEditText
 class AddCityFragment : DialogFragment() {
 
     private var cityName: TextInputEditText? = null
-    private var longitude: TextInputEditText? = null
-    private var latitude: TextInputEditText? = null
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_fragment, null)
         val isRussian=arguments?.getBoolean("isRussian")
         cityName = view.findViewById(R.id.city_name_dialog)
-        longitude = view.findViewById(R.id.lon_txt)
-        latitude = view.findViewById(R.id.lan_txt)
         builder.setView(view)
-            .setTitle("Введите координаты города")
+
             .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, i ->
 
                 try {
                     val newCityName:String = cityName?.text.toString()
-                    val newCityLon: Double = longitude?.text.toString().toDouble()
-                    val newCityLat: Double = latitude?.text.toString().toDouble()
                     val newCity=City(newCityName,null)
                     if(isRussian == true) {
-                        CityList.citiesRussian.add(newCity)
+                        CityList.citiesRussian.add(0,newCity)
                     }else{
-                        CityList.citiesWorld.add(newCity)
+                        CityList.citiesWorld.add(0,newCity)
                     }
+
+
                 } catch (e:Exception){
                     Toast.makeText(context,"введите поля!!!",Toast.LENGTH_SHORT).show()
                 }
@@ -47,3 +42,4 @@ class AddCityFragment : DialogFragment() {
     }
 
 }
+
