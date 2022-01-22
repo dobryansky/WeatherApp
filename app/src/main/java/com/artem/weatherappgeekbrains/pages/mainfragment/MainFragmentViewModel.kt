@@ -43,6 +43,7 @@ class MainFragmentViewModel(
     }
 
     fun getWeatherFromRemoteServer(isRussian: Boolean) {
+
         val weatherList= if (isRussian) {
             repositoryImpl.getWeatherFromLocalStorageRus()
         } else {

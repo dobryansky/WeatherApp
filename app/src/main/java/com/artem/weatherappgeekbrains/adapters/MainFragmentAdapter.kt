@@ -40,7 +40,6 @@ class MainFragmentAdapter(val listener: OnMyItemClickListener, val isRussian: Bo
             itemColorLayout.setBackgroundResource(R.drawable.gradient_background_world_item)
         }
     }
-
         holder.itemView.setOnClickListener {
             listener.onItemClick(weatherItem)
         }

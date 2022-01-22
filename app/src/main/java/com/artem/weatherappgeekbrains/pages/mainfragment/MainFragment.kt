@@ -20,6 +20,7 @@ import com.artem.weatherappgeekbrains.pages.detailsfragment.DetailsFragment
 import com.artem.weatherappgeekbrains.pages.dialogfragments.AddCityFragment
 
 class MainFragment : Fragment(), OnMyItemClickListener {
+
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MainFragmentViewModel
@@ -40,17 +41,29 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         viewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
         viewModel.getWeatherFromRemoteSourceRus()
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
-        adapter.setWeather(CityList.citiesWorld)
+        adapter.setWeather(CityList.citiesRussian)
 
-        with(binding){
+        with(binding) {
             mainRecycleView.layoutManager = LinearLayoutManager(context)
             mainRecycleView.adapter = adapter
             buttonAdd.setOnClickListener {
-                val dialogFragment = AddCityFragment()
+                val dialogFragment = AddCityFragment(object :AddCityFragment.IDialogCallback{
+                    override fun updateRecyclerView() {
+                        if(isRussian) {
+                            viewModel.getWeatherFromRemoteSourceRus()
+                        } else{
+                            viewModel.getWeatherFromRemoteSourceWorld()
+                        }
+                    }
+
+                })
                 val args = Bundle()
                 args.putBoolean("isRussian", isRussian)
                 dialogFragment.arguments = args
                 dialogFragment.show(parentFragmentManager, "Add Dialog")
+
+
+
             }
             mainFragmentFAB.setOnClickListener {
                 sentRequest()
@@ -62,10 +75,7 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         when (appState) {
             is AppState.Error -> {
                 binding.progressBar.visibility = View.GONE
-               /* Snackbar.make(binding.root, "Error", Snackbar.LENGTH_LONG)
-                    .setAction("Попробовать еще раз") {
-                        sentRequest()
-                    }.show()*/
+
             }
             is AppState.Loading -> {
                 binding.apply {
@@ -81,20 +91,15 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                     mainLayoutList.setBackgroundResource(R.color.white)
                 }
                 adapter.setWeather(appState.cityList)
-                /*Snackbar.make(
-                    binding.root,
-                    "Success",
-                    Snackbar.LENGTH_LONG
-                ).show()*/
+
             }
         }
     }
 
     private fun sentRequest() {
         isRussian = !isRussian
-
         adapter = MainFragmentAdapter(this, isRussian)
-        with(binding){
+        with(binding) {
             mainRecycleView.layoutManager = LinearLayoutManager(context)
             mainRecycleView.adapter = adapter
 
@@ -107,9 +112,6 @@ class MainFragment : Fragment(), OnMyItemClickListener {
                 mainFragmentFAB.setImageResource(R.drawable.ic_earth)
             }
         }
-
-
-
     }
 
 
@@ -129,6 +131,8 @@ class MainFragment : Fragment(), OnMyItemClickListener {
         super.onDestroyView()
         _binding = null
     }
+
+
 
 
 }
