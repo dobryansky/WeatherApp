@@ -1,15 +1,15 @@
 package com.artem.weatherappgeekbrains.model
 
 class RepositoryImpl:Repository {
-    override fun getWeatherFromServer(): Weather {
-        return Weather()
+    override fun getWeatherFromServer(): MutableList<City> {
+        return  CityList.citiesRussian
     }
 
-    override fun getWeatherFromLocalStorageRus(): MutableList<Weather> {
+    override fun getWeatherFromLocalStorageRus(): MutableList<City> {
         return CityList.citiesRussian
     }
 
-    override fun getWeatherFromLocalStorageWorld(): MutableList<Weather> {
+    override fun getWeatherFromLocalStorageWorld(): MutableList<City> {
         return CityList.citiesWorld
     }
 
