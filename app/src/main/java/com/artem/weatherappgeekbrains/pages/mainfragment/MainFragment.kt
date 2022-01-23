@@ -15,9 +15,9 @@ import com.artem.weatherappgeekbrains.databinding.MainFragmentBinding
 import com.artem.weatherappgeekbrains.model.AppState
 import com.artem.weatherappgeekbrains.model.City
 import com.artem.weatherappgeekbrains.model.CityList
-import com.artem.weatherappgeekbrains.pages.detailsfragment.BUNDLE_KEY
 import com.artem.weatherappgeekbrains.pages.detailsfragment.DetailsFragment
 import com.artem.weatherappgeekbrains.pages.dialogfragments.AddCityFragment
+import com.artem.weatherappgeekbrains.utils.BUNDLE_KEY
 
 class MainFragment : Fragment(), OnMyItemClickListener {
 

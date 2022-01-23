@@ -5,19 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.artem.weatherappgeekbrains.databinding.DetailsFragmentBinding
 import com.artem.weatherappgeekbrains.extensions.loadImageFromUrl
+import com.artem.weatherappgeekbrains.model.AppState
 import com.artem.weatherappgeekbrains.model.City
+import com.artem.weatherappgeekbrains.model.CityList
 import com.artem.weatherappgeekbrains.model.WeatherDTO
+import com.artem.weatherappgeekbrains.utils.BUNDLE_KEY
 import com.artem.weatherappgeekbrains.utils.WeatherLoader
 
-const val BUNDLE_KEY = "key"
 
 class DetailsFragment : Fragment(), WeatherLoader.OnWeatherLoaded {
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
+    var position =0
 
-    private lateinit var mViewModel: DetailsFragmentViewModel
+    private val mViewModel: DetailsFragmentViewModel by lazy {
+        ViewModelProvider(this)[DetailsFragmentViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,15 +33,33 @@ class DetailsFragment : Fragment(), WeatherLoader.OnWeatherLoaded {
         return binding.root
     }
 
-    private val weatherLoader = WeatherLoader(this)
     lateinit var city: City
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mViewModel.getLiveData().observe(viewLifecycleOwner,{
+            renderData(it)
+        })
         arguments?.let {
             it.getParcelable<City>(BUNDLE_KEY)?.let {
                 city = it
-                weatherLoader.loadWeather(it.name)
+                mViewModel.getWeatherFromRemoteServer(city.name)
+            }
+        }
+    }
+
+    private fun renderData(appState: AppState) {
+        with(binding) {
+            when (appState) {
+                is AppState.Error -> {
+                    // HW
+                }
+                is AppState.Loading -> {
+                    // HW
+                }
+                is AppState.Success -> {
+                    val weather = appState.cityList[0]
+                    setCityWeather(weather)
+                }
             }
         }
     }

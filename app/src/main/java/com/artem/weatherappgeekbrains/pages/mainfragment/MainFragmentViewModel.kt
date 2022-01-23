@@ -1,12 +1,11 @@
 package com.artem.weatherappgeekbrains.pages.mainfragment
 
-import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.artem.weatherappgeekbrains.BuildConfig
 import com.artem.weatherappgeekbrains.model.AppState
-import com.artem.weatherappgeekbrains.model.RepositoryImpl
+import com.artem.weatherappgeekbrains.repository.RepositoryCitiesListImpl
 import com.artem.weatherappgeekbrains.model.WeatherDTO
 import com.google.gson.Gson
 import java.io.BufferedReader
@@ -17,7 +16,7 @@ import javax.net.ssl.HttpsURLConnection
 
 class MainFragmentViewModel(
      val liveData: MutableLiveData<AppState> = MutableLiveData(),
-    private val repositoryImpl: RepositoryImpl = RepositoryImpl()
+    private val repositoryImpl: RepositoryCitiesListImpl = RepositoryCitiesListImpl()
 
 ) : ViewModel() {
 
