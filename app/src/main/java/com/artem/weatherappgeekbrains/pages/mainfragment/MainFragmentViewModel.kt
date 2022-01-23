@@ -1,8 +1,10 @@
 package com.artem.weatherappgeekbrains.pages.mainfragment
 
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.artem.weatherappgeekbrains.BuildConfig
 import com.artem.weatherappgeekbrains.model.AppState
 import com.artem.weatherappgeekbrains.model.RepositoryImpl
 import com.artem.weatherappgeekbrains.model.WeatherDTO
@@ -52,11 +54,11 @@ class MainFragmentViewModel(
         weatherList.forEach {weatherItem->
             Thread {
                 val url =
-                    URL("https://api.weatherapi.com/v1/current.json?key=11203b938d0d408385d134411212211&q=${weatherItem.name}")
+                    URL("https://api.weatherapi.com/v1/current.json?q=${weatherItem.name}")
                 val httpsURLConnection = (url.openConnection() as HttpsURLConnection).apply {
                     requestMethod = "GET"
                     //readTimeout = 500
-                    //addRequestProperty("key", "11203b938d0d408385d134411212211")
+                    addRequestProperty("key", BuildConfig.WEATHER_API_KEY)
                 }
                 val bufferedReader = BufferedReader(InputStreamReader(httpsURLConnection.inputStream))
                 val weatherDTO =
